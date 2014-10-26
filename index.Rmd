@@ -1,0 +1,97 @@
+---
+title       : 
+subtitle    : 
+author      : 
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+
+
+## Linear Regression App Tutorial
+
+This is a tutorial on how to use the "Linear Regression App".
+
+For this app we use the dataset mtcars and estimate the Miles per Gallon using a simple Linear Regression Model according to different variables.
+
+```{r}
+head(mtcars)
+```
+
+---
+
+## Select a Predictor Variable
+
+1- The first step is to select the predictor variable. This variable will be used to build the linear regression to predict the estimated miles per gallon.
+
+The plot and the regression model will be automatically updated to our selection.
+
+For example, try to choose the "Horse.Power" variable and you should get the following graph.
+
+```{r, echo=FALSE}
+fit <- lm(mtcars$mpg ~ mtcars$hp)
+plot(mpg ~ hp,data = mtcars, ylab="Miles per Gallon",xlab="Horse.Power")
+abline(fit,col = "red",lwd=2)
+```
+
+---
+
+## Make your prediction
+
+2- The next step is to write a specific value for our prediction.
+
+The point will be automatically predicted and ploted in our graph.
+
+For example, try predicting the miles per gallon using 200HP. The answer will be: 16MPG as shown in the graph.
+
+
+```{r, echo=FALSE}
+fit <- lm(mpg ~ hp,data=mtcars)
+plot(mpg ~ hp,data = mtcars, ylab="Miles per Gallon",xlab="Horse.Power")
+abline(fit,col = "red",lwd=2)
+x <- data.frame(hp = 200)
+prediction <- as.numeric(predict(fit,x))
+points(200,prediction,col="blue",pch=4,cex=4,lwd=3)
+```
+
+---
+
+## Add features
+
+3- At last we can add or remove features. For example, use the formula checkbox to see the model formula and the value of the prediction made. We can also show or hide the regression line and we can also show the names of the regression values.
+
+Example, try checking out all the boxes. You will see the formula with our prediction, the regression line, and the car names as the plot shown. In the app you will also see a table with car names and values(which I ommited here because of restricted space).
+
+```{r, echo=FALSE}
+fit <- lm(mpg ~ hp,data=mtcars)
+intercept <- round(as.numeric(fit$coefficients[1]),4)
+slope <- round(as.numeric(fit$coefficients[2]),4)
+x <- data.frame(hp = 200)
+prediction <- round(as.numeric(predict(fit,x)),4)
+text <- paste("Miles per Gallon = ",intercept," + x(",slope,")"," = ",prediction,sep="")
+plot(mpg ~ hp,data = mtcars, ylab="Miles per Gallon",xlab="Horse.Power",main = text)
+abline(fit,col = "red",lwd=2)
+points(200,prediction,col="blue",pch=4,cex=4,lwd=3)
+with(mtcars, text(mpg ~ hp, labels = row.names(mtcars), pos = 4,cex=0.7))
+```
+
+--- 
+
+## Interactive App
+
+We are now ready to take a look and play with the app. :)
+
+You can go to the following link to start playing.
+https://marcelo.shinyapps.io/Shiny3/
+
+If you want to take a look at the code, you can access the following github repository.
+https://github.com/MarceloOrtiz/shinnycode
+
+---
+
+
